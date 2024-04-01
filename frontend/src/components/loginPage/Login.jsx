@@ -107,7 +107,7 @@ function Login() {
       </div>
       <div className="absolute bottom-5 right-5">
         <div className="tooltip tooltip-left" data-tip="For Queries...">
-          <button className="btn btn-circle nt text-pink-400 border-dashed border-2 border-neutral-400" onClick={() => {navigate("/query")}}>
+          <button className="btn btn-circle text-pink-400 border-dashed border-2 border-neutral-400" onClick={() => {navigate("/query")}}>
             <HiQuestionMarkCircle className="queryIcon nt" />
           </button>
         </div>

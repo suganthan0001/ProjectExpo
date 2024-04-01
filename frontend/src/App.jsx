@@ -14,7 +14,7 @@ function App() {
   const { theme } = useStore();
   return (
     <>
-    <div data-theme={theme ? "light" : "dark"} className="duration-300">
+    <div data-theme={theme ? "light" : "dark"} className="">
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Navigate to={"/login"} />} />
