@@ -1,10 +1,11 @@
 import React from 'react'
+import Navbar from './Navbar'
 
 function Home() {
   return (
-    <h1 className='w-full h-screen flex items-center justify-center text-3xl'>
-        HOME
-    </h1>
+    <>
+      <Navbar />
+    </>
   )
 }
 

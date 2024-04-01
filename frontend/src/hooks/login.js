@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 export const useLogin = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const loginUser = async (username, password) => {
@@ -17,17 +19,18 @@ export const useLogin = () => {
         }),
       });
 
-      if(res.status === 200){
-        toast.success("Successfully logged in!!");
-        return true;
-      }else{
+      if (res.status === 200) {
+        setTimeout(() => {
+          toast.success("Successfully logged in!!");
+          setLoading(false);
+          navigate("/home");
+        }, 2000);
+      } else {
         toast.error("Invalid username or password!!");
         return false;
       }
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 

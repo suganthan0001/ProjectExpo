@@ -1,11 +1,11 @@
 import React from "react";
 import useStore from "./zustand/store";
 
-function Theme() {
+function Theme({styles}) {
   const { theme, setTheme } = useStore();
   return (
     <>
-      <div className="absolute top-5 right-5">
+      <div className={`${styles}`}>
         <label className="swap swap-rotate">
           {/* this hidden checkbox controls the state */}
           <input

@@ -1,0 +1,8 @@
+.pie {
+  background-color: black;
+  margin: 150px;
+  height: 350px;
+  width: 350px;
+  border-radius: 50%;
+  background: conic-gradient(yellow 25%, green 0 30%, blue 0 45%, red 0 100%);
+}

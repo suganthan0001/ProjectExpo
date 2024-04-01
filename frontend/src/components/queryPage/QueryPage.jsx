@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Theme from "../Theme";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -7,6 +7,39 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
 function QueryPage() {
+
+  const [loading, setLoading] = useState(false);
+
+
+  const sendQuery = async (formData,actions) => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:3000/submit-query", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({...formData, status:"unsolved"}),
+      });
+      if (!response.ok) {
+        toast.error("Failed to submit query");
+        throw new Error("Failed to submit query");
+      }
+      setTimeout(() => {
+        toast.success(
+          "Query Submitted Successfully... we will catch you shortly!",
+          {
+            duration: 5000,
+          }
+        );
+        setLoading(false);
+        actions.resetForm();
+      }, 2000);
+    } catch (error) {
+      console.error("Error submitting query:", error);
+    }
+  };
+
   const navigate = useNavigate();
 
   const QueryValidationSchema = yup.object().shape({
@@ -50,23 +83,23 @@ function QueryPage() {
       description: "",
     },
     validationSchema: QueryValidationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, actions) => {
       console.log(values);
-      toast.success(
-        "Query Submitted Successfully... we will catch you shortly!",
-        {
-          duration: 5000,
-        }
-      );
+      sendQuery(values,actions);
     },
   });
 
   return (
     <div className="grid lg:grid-cols-2 grid-custom-rows px-12 home">
-      <button className="btn btn-circle btn-outline absolute top-5 left-5 text-3xl" onClick={() => {navigate("/login")}}>
-      <IoIosArrowRoundBack />
+      <button
+        className="btn btn-circle btn-outline absolute top-5 left-5 text-3xl"
+        onClick={() => {
+          navigate("/login");
+        }}
+      >
+        <IoIosArrowRoundBack />
       </button>
-      <Theme />
+      <Theme styles={"absolute top-5 right-5"}/>
       <div className="lg:col-span-2">
         <h1 className="text-1xl md:text-2xl lg:text-5xl text-center font-medium pt-10 whitespace-nowrap">
           <span className="glass">
@@ -209,7 +242,9 @@ function QueryPage() {
           className="btn text-2xl glass w-full text-center mt-5"
           type="submit"
         >
-          Submit
+          {
+            loading ? <span className="loading loading-ring loading-lg"></span> : "Submit"
+          }
         </button>
       </form>
     </div>

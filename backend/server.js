@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const Query = require('./models/query.model');
 
 const app = express();
 const port = 3000;
@@ -54,6 +55,17 @@ app.post("/insertMany", async (req, res) => {
         console.error('Error inserting data:', error);
       }
 })
+
+app.post('/submit-query', async (req, res) => {
+  try {
+    const newQuery = new Query(req.body);
+    const savedQuery = await newQuery.save();
+    res.status(201).send(savedQuery);
+  } catch (error) {
+    console.error('Error saving query:', error);
+    res.status(500).json({"message":'Error saving query'});
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

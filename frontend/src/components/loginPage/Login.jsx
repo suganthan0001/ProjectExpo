@@ -23,7 +23,7 @@ function Login() {
     }
     let loggedIn = await loginUser(username, password);
     if (loggedIn) {
-      navigate("/home");
+      
     } else {
       return;
     }
@@ -32,7 +32,7 @@ function Login() {
   return (
     <>
       <div className="flex items-center justify-center w-full h-screen gap-5 pr-20">
-        <Theme />
+        <Theme styles={"absolute top-5 right-5"}/>
         <div className="">
           <img
             src={loginLight}
