@@ -1,40 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import loginLight from "../../assets/login-light.png";
-function Login({setTheme, theme}) {
+import { useLogin } from "../../hooks/login";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+// import useStore from "../zustand/store";
+import { HiQuestionMarkCircle } from "react-icons/hi";
+import Theme from "../Theme";
+function Login() {
+  // const { theme, setTheme } = useStore();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { loading, loginUser } = useLogin();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (username.length < 1 || password.length < 1) {
+      toast.error("Please enter username and password...");
+      return;
+    }
+    let loggedIn = await loginUser(username, password);
+    if (loggedIn) {
+      navigate("/home");
+    } else {
+      return;
+    }
+  };
 
   return (
     <>
       <div className="flex items-center justify-center w-full h-screen gap-5 pr-20">
-        <div className="absolute top-5 right-5">
-          <label className="swap swap-rotate">
-            {/* this hidden checkbox controls the state */}
-            <input
-              type="checkbox"
-              className="theme-controller" 
-              value="synthwave"
-              onClick={() => {setTheme(!theme)}}
-            />
-
-            {/* sun icon */}
-            <svg
-              className="swap-off fill-current w-10 h-10"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
-            </svg>
-
-            {/* moon icon */}
-            <svg
-              className="swap-on fill-current w-10 h-10"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
-            </svg>
-          </label>
-        </div>
-
+        <Theme />
         <div className="">
           <img
             src={loginLight}
@@ -42,41 +40,76 @@ function Login({setTheme, theme}) {
             className="h-700"
           />
         </div>
-        <div className="flex flex-col gap-4">
-
-          <h1 className="logoName neonText pb-20" style={{fontSize: "50px"}}>POWER PULSE</h1>
-
-          <h1 className="text-3xl pb-8">WELCOME !</h1>
-
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-4">
+            <h1
+              className="logoName neonText pb-20"
+              style={{ fontSize: "50px" }}
             >
-              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-            </svg>
-            <input type="text" className="grow" placeholder="Username" />
-          </label>
+              POWER PULSE
+            </h1>
 
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                clipRule="evenodd"
+            <h1 className="text-3xl pb-8">WELCOME !</h1>
+
+            <label className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="w-4 h-4 opacity-70"
+              >
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+              </svg>
+              <input
+                type="text"
+                className="grow"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
               />
-            </svg>
-            <input type="password" className="grow" value="password" />
-          </label>
+            </label>
 
-          <button className="btn btn-outline btn-accent">LOGIN</button>
+            <label className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="w-4 h-4 opacity-70"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <input
+                type="password"
+                className="grow"
+                value={password}
+                placeholder="Password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </label>
+
+            <button className="btn btn-outline btn-accent" type="submit">
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "LOGIN"
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="absolute bottom-5 right-5">
+        <div className="tooltip tooltip-left" data-tip="For Queries...">
+          <button className="btn btn-circle nt text-pink-400 border-dashed border-2 border-neutral-400" onClick={() => {navigate("/query")}}>
+            <HiQuestionMarkCircle className="queryIcon nt" />
+          </button>
         </div>
       </div>
     </>
