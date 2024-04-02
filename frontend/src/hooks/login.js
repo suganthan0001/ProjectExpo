@@ -24,9 +24,10 @@ export const useLogin = () => {
           toast.success("Successfully logged in!!");
           setLoading(false);
           navigate("/home");
-        }, 2000);
+        }, 1000);
       } else {
         toast.error("Invalid username or password!!");
+        setLoading(false);
         return false;
       }
     } catch (error) {

@@ -19,7 +19,7 @@ function QueryPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...formData, status:"unsolved"}),
+        body: JSON.stringify({...formData, status:"solved"}),
       });
       if (!response.ok) {
         toast.error("Failed to submit query");
@@ -102,7 +102,7 @@ function QueryPage() {
       <Theme styles={"absolute top-5 right-5"}/>
       <div className="lg:col-span-2">
         <h1 className="text-1xl md:text-2xl lg:text-5xl text-center font-medium pt-10 whitespace-nowrap">
-          <span className="glass">
+          <span className="">
             "We are waiting to solve your Queries..."
           </span>
         </h1>
