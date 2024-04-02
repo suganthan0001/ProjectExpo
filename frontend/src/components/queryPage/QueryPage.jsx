@@ -19,7 +19,7 @@ function QueryPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({...formData, status:"solved"}),
+        body: JSON.stringify({...formData, status:"unsolved"}),
       });
       if (!response.ok) {
         toast.error("Failed to submit query");

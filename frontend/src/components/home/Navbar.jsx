@@ -57,7 +57,7 @@ function Navbar() {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
+              <li onClick={() => {navigate("/solveQuery")}}>
                 <a>To solve Queries</a>
               </li>
               <li
@@ -74,7 +74,7 @@ function Navbar() {
           </div>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <a className="btn btn-ghost text-xl">Power Pulse</a>
         </div>
         <div className="navbar-end gap-4">
           <button className="btn btn-ghost btn-circle">
