@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import Theme from "../Theme";
 import { TfiReload } from "react-icons/tfi";
+import { useNavigate } from "react-router-dom";
+import { CiLogout } from "react-icons/ci";
+import {toast} from 'react-hot-toast'
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const myPromise = () => new Promise((resolve) => {
+    setTimeout(() => {
+      navigate("/login");
+      resolve();
+    }, 1000);
+  });
+
   return (
     <>
       <div className="navbar bg-base-100">
         <div className="navbar-start">
+          <button
+            className="btn btn-ghost btn-circle"
+            onClick={() => {
+              toast.promise(myPromise(), {
+                loading: 'Loading...',
+                success: 'Logged Out Successfully',
+                error: 'Error when logging out',
+              });
+              
+            }}
+          >
+            <CiLogout className="text-lg lg:text-2xl" />
+          </button>
           <div className="dropdown">
             <div
               tabIndex={0}
@@ -35,7 +60,11 @@ function Navbar() {
               <li>
                 <a>To solve Queries</a>
               </li>
-              <li>
+              <li
+                onClick={() => {
+                  navigate("/query");
+                }}
+              >
                 <a>New Querie</a>
               </li>
               <li>
@@ -49,7 +78,7 @@ function Navbar() {
         </div>
         <div className="navbar-end gap-4">
           <button className="btn btn-ghost btn-circle">
-          <TfiReload className="text-lg lg:text-2xl"/>
+            <TfiReload className="text-lg lg:text-2xl" />
           </button>
           <Theme styles={"text-sm"} />
         </div>
