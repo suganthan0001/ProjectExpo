@@ -49,6 +49,39 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/pushData", async (req, res) => {
+  try {
+    const db = admin.database();
+    const dataRef = db.ref("/readings");
+    const newData = req.body;
+
+    await dataRef.set(newData);
+
+    res.status(200).json({ message: "Data pushed to Firebase successfully" });
+  } catch (error) {
+    console.error("Error pushing data to Firebase:", error);
+    res.status(500).json({ error: "Failed to push data to Firebase" });
+  }
+});
+
+app.get("/readings", async (req, res) => {
+  try {
+    const db = admin.database();
+    const dataRef = db.ref("/readings"); 
+    const snapshot = await dataRef.once("value");
+    const data = snapshot.val();
+
+    if (!data) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Error fetching data from Firebase:", error);
+    res.status(500).json({ error: "Failed to fetch data from Firebase" });
+  }
+});
+
 app.post("/insertOne", async (req, res) => {
   try {
     const data = req.body;
