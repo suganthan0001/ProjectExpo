@@ -5,6 +5,15 @@ import SimplePieChart from "./SimplePieChart";
 function Home() {
   const [readings, setReadings] = useState();
   const [area, setArea] = useState("area1");
+  const [data1, setData1] = useState([
+    { name: "Group A", value: 3 },
+    { name: "Group B", value: 10 },
+  ]);
+
+  const [data2, setData2] = useState([
+    { name: "Group A", value: 3 },
+    { name: "Group B", value: 5 },
+  ]);
 
   const fetchData = async () => {
     try {
@@ -21,16 +30,25 @@ function Home() {
 
   console.log(readings);
   useEffect(() => {
-    fetchData();
-  }, []);
-  const data = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 200 },
-  ];
+    const doActions = async () => {
+      await fetchData();
+      setData1([
+        { name: "Group A", value: readings.area1.t3[0].no_of_lights},
+        { name: "Group B", value: readings.area1.t3[1].no_of_lights},
+      ]);
+
+      setData2([
+        { name: "Group A", value: readings.area1.t3[0].no_of_lights},
+        { name: "Group B", value: readings.area1.t3[1].no_of_lights},
+      ]);
+    };
+    doActions();
+  }, [readings]);
+
   return (
     <>
       <Navbar />
-      <div className="" style={{height: "86vh"}}>
+      <div className="" style={{ height: "86vh" }}>
         <div className="flex justify-evenly mt-10">
           {/* First table */}
           <div className="">
@@ -111,7 +129,8 @@ function Home() {
                       <tr>
                         <td>{each.current_consumed}</td>
                         <td>{each.no_of_lights}</td>
-                        <td>{each.status_of_lights}</td>
+                        {each.status_of_lights === 'on' ? <td className="text-green-400">{each.status_of_lights}</td> : <td className="text-orange-400">{each.status_of_lights}</td>}
+                        
                       </tr>
                     );
                   })
@@ -122,12 +141,12 @@ function Home() {
             </table>
           </div>
         </div>
-        <div className="flex justify-evenly mt-8" style={{height: "50%"}}>
-          <div className="w-1/2">
-            <SimplePieChart data={data} />
+        <div className="flex justify-evenly mt-8" style={{ height: "50%" }}>
+          <div className="w-1/2 text-center">
+            <SimplePieChart data={data1} />
           </div>
           <div className="w-1/2">
-            <SimplePieChart data={data} />
+            <SimplePieChart data={data2} />
           </div>
         </div>
       </div>
