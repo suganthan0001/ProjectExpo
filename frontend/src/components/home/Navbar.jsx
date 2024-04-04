@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Theme from "../Theme";
-import { TfiReload } from "react-icons/tfi";
 import { useNavigate } from "react-router-dom";
 import { CiLogout } from "react-icons/ci";
 import {toast} from 'react-hot-toast'
@@ -77,9 +76,6 @@ function Navbar() {
           <a className="btn btn-ghost text-xl">Power Pulse</a>
         </div>
         <div className="navbar-end gap-4">
-          <button className="btn btn-ghost btn-circle">
-            <TfiReload className="text-lg lg:text-2xl" />
-          </button>
           <Theme styles={"text-sm"} />
         </div>
       </div>
